@@ -19,7 +19,7 @@ app.use('/api/v1/auth',authRouter);
 app.use('/api/v1/user',userRouter)
 app.get("/", (req, res) => {
     return res.json({
-      message: "Health is ok !",
+      message: "Health is ok!",
     });
   });
   
