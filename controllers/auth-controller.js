@@ -1,7 +1,14 @@
 import { registration } from "../model/userModel.js";
 import bcrypt from "bcryptjs";
 import JWT from 'jsonwebtoken';
+import { configDotenv } from "dotenv";
+import nodemailer from "nodemailer"
+import { fileURLToPath } from 'url';
+import path from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+configDotenv();
 
 export const userRegistration = async(req,res)=>{
     try {
@@ -67,6 +74,7 @@ export const userLogin = async(req,res)=>{
         }
 
         const token = JWT.sign({_id:user._id},process.env.JWT_SECRET_KEY,{expiresIn:"7d"});
+        sendEmail(user.email,user.name);
         res.status(200).json({
             success:true,
             message:"Loggined Successfully !",
@@ -86,3 +94,79 @@ export const userLogin = async(req,res)=>{
     }
 }
 
+
+const sendEmail = async (emailId,userName) => {
+
+    const html = `<div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; line-height: 1.5; color: #333; background: #f9f9f9; padding: 20px; border-radius: 10px;">
+  <!-- Email Header -->
+  <div style="text-align: center;">
+    <img src="https://firebasestorage.googleapis.com/v0/b/cv-on-blockchain.appspot.com/o/1742311923425EdubukLogoClean.png?alt=media&token=edc75666-d83e-4829-9cf1-132d1bd43ac3" style="max-width: 120px; margin-bottom: 10px;">
+  </div>
+
+  <!-- Email Content -->
+  <h2 style="color: #007BFF; text-align: center;">Action Required: Submit Your KYC Documents</h2>
+  <p>Dear <strong>${userName}</strong>,</p>
+  <p>This is a gentle reminder to complete your <strong>Know Your Customer (KYC)</strong> process. Submitting your KYC documents is essential for verifying your account and ensuring uninterrupted access to our services.</p>
+  <p>Please click the button below to submit your KYC documents. This process is quick, secure, and will only take a few minutes.</p>
+
+  <!-- Button -->
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="${process.env.FrontEnd_Url}/dashboard/user/user-status" 
+       style="display: inline-block; padding: 12px 20px; background-color: green; border-radius: 5px; color: white; text-decoration: none; font-size: 16px; font-weight: bold;">
+      Submit Your KYC
+    </a>
+  </div>
+
+  <p style="margin-top: 20px;">If you have already submitted your KYC documents, please disregard this email.</p>
+
+  <!-- Support Info -->
+  <p style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+    Thank you for your prompt attention to this matter. If you have any questions or need assistance, feel free to contact our support team at 
+    <a href="mailto:support@edubukeseal.org" style="color: #007BFF; text-decoration: none;">support@edubukeseal.org</a>.
+  </p>
+
+  <!-- Signature -->
+  <p>Best regards,</p>
+  <h3 style="margin-bottom: 5px;">Edubuk</h3>
+
+  <!-- Footer -->
+  <footer style="margin-top: 20px; font-size: 12px; color: #555; text-align: center;">
+    <p>© Edubuk. All rights reserved.</p>
+  </footer>
+</div>`;
+
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: "investment@edubukeseal.org",
+                pass: "otff yjgd ctsd yppb",
+            },
+        });
+
+        // const response = await fetch(resumeFile);
+        // const arrayBuffer = await response.arrayBuffer(); // Convert response to ArrayBuffer
+        // const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
+        const pdfPath = path.resolve(__dirname, "../utils/edubukConsent.pdf");
+        const info = transporter.sendMail({
+            from: '"Edubuk" <investment@edubukeseal.org>',
+            to: `${emailId},investment@edubukeseal.org`,
+            subject: "KYC Submission Reminder",
+            text: "From edubuk",
+            html: html,
+            attachments: [
+                {
+                    filename: "edubukConsent.pdf", // Name for the attached file
+                    path:pdfPath, // Path to the existing PDF file
+                    contentType: "application/pdf",
+                },
+            ],
+        });
+
+
+        return { success: true, info };
+    } catch (error) {
+        console.log("ERROR:WHILE SENDING MAIL", error);
+        return { success: false, error };
+    }
+};
