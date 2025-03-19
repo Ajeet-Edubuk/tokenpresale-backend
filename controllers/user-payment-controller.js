@@ -95,7 +95,7 @@ const sendEmail = async (emailId, walletAdd, paidAmount,method, paymentUrl) => {
 
     const html = `<div style="font-family: Arial, sans-serif; line-height: 1.5; color: #333;">
   <!-- Email Content -->
-  <h2 style="color: #007BFF;">Thank You for your Investment at Eduprovince Ltd.</h2>
+  <h2 style="color: #007BFF;">Thank You for your Investment in EBUK Tokens at Eduprovince Ltd.</h2>
   <p>We have received your payment data. To make it more secure and authenticate.</p>
   <p>Please verify below all the payment data shared by you:</p>
     <table style="width: 100%; max-width: 600px; border-collapse: collapse; background: #fff; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden;">
