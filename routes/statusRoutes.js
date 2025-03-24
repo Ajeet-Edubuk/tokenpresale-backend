@@ -6,7 +6,7 @@ import { getSubmittedDetails, userPayments, verifyDetails } from '../controllers
 const router = express.Router();
 
 router.post('/create-session',requiredSignIn,createSessionId);
-router.get('/get-session-status',requiredSignIn,getKycStatus);
+router.get('/get-session-status/:email',requiredSignIn,getKycStatus);
 router.post('/create-new-payment',requiredSignIn,userPayments);
 router.get('/payment-history/:emailId',requiredSignIn,getSubmittedDetails);
 router.get('/verify-details/:emailId/:walletAdd',verifyDetails);

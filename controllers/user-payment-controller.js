@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 export const userPayments = async (req, res) => {
     try {
-        const { emailId, walletAdd, paidAmount,method, paymentUrl } = req.body;
+        const { emailId, walletAdd, paidAmount,method, paymentUrl,refferalCode} = req.body;
 
         if (!emailId || !paidAmount || !paymentUrl || !walletAdd || !method) {
             return res.status(400).json({
@@ -37,7 +37,7 @@ export const userPayments = async (req, res) => {
             try {
                 const data = await UserPayment.create({
                     emailId,
-                    paymentInfo: [{amount:paidAmount,method:method,paymentUrl:paymentUrl,walletAdd:walletAdd}],
+                    paymentInfo: [{amount:paidAmount,method:method,paymentUrl:paymentUrl,walletAdd:walletAdd,refferalCode:refferalCode}],
                 });
 
                 if (data) {
@@ -62,7 +62,7 @@ export const userPayments = async (req, res) => {
                 { emailId },
                 {
                     $push: {
-                        paymentInfo:{amount:paidAmount,method:method,paymentUrl:paymentUrl,walletAdd:walletAdd},
+                        paymentInfo:{amount:paidAmount,method:method,paymentUrl:paymentUrl,walletAdd:walletAdd,refferalCode:refferalCode},
                     },
                 },
                 { new: true }

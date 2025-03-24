@@ -20,17 +20,23 @@ const paymentSchema = new mongoose.Schema({
         type:String,
         required:true,
       },
+      isPaymentVerified:{
+        type:Boolean,
+        default:false
+      },
       tokensReceived:{
         type:String
       },
       walletAdd: {
       type: String,
       required: true,
-      unique: true,
     },
     walletVerify: {  // by user via mail
       type: Boolean,
       default: false,
+    },
+    refferalCode:{
+        type:String,
     },
     },
   ],

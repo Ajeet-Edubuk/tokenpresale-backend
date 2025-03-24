@@ -70,7 +70,8 @@ export const getKycStatus = async(req,res)=>{
     }
     
     try {
-        const data = await statusModal.findOne({userId:req.user._id});
+        const {email} = req.params;
+        const data = await statusModal.findOne({email:email});
         if(data && data?.sessionId)
         {
         //console.log("data",data.sessionId);
@@ -101,3 +102,4 @@ export const getKycStatus = async(req,res)=>{
         })
     }
 }
+
