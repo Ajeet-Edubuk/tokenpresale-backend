@@ -104,12 +104,12 @@ export const sendOtp = async(req,res)=>{
     try {
         if (!email) return res.status(400).json({ message: "Email is required" });
         const otp = crypto.randomInt(100000,999999).toString(); // 6-digit otp
+        sendOtpEmail(email,otp);
         await otpModal.findOneAndUpdate(
             {email},
             {otp,createdAt:new Date()},
             {upsert:true,new:true}
         )
-        await sendOtpEmail(email,otp);
         res.status(200).json({ 
             success:true,
             message: "OTP sent successfully" });
