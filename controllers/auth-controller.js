@@ -75,7 +75,7 @@ export const sendOtpEmail = async (emailId,otp) => {
             service: 'gmail',
             auth: {
                 user: "investment@edubukeseal.org",
-                pass: "otff yjgd ctsd yppb",
+                pass: process.env.EmailPass,
             },
         });
 
@@ -183,7 +183,8 @@ export const userLogin = async(req,res)=>{
                 message:"No user found with this email id "
             })
         }
-        const passwordMatched = bcrypt.compare(password,user.hashedPassword);
+        //console.log("user",user)
+        const passwordMatched = await bcrypt.compare(password,user.hashedPassword);
         if(!passwordMatched)
         {
             return res.status(200).json({
@@ -241,7 +242,7 @@ const sendEmail = async (emailId,userName) => {
   <!-- Support Info -->
   <p style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
     Thank you for your prompt attention to this matter. If you have any questions or need assistance, feel free to contact our support team at 
-    <a href="mailto:support@edubukeseal.org" style="color: #007BFF; text-decoration: none;">support@edubukeseal.org</a>.
+    <a href="mailto:investment@edubukeseal.org" style="color: #007BFF; text-decoration: none;">investment@edubukeseal.org</a>.
   </p>
 
   <!-- Signature -->
@@ -259,7 +260,7 @@ const sendEmail = async (emailId,userName) => {
             service: 'gmail',
             auth: {
                 user: "investment@edubukeseal.org",
-                pass: "otff yjgd ctsd yppb",
+                pass:process.env.EmailPass,
             },
         });
 
@@ -273,13 +274,6 @@ const sendEmail = async (emailId,userName) => {
             subject: "KYC Submission Reminder",
             text: "From edubuk",
             html: html,
-            attachments: [
-                {
-                    filename: "edubukConsent.pdf", // Name for the attached file
-                    path:pdfPath, // Path to the existing PDF file
-                    contentType: "application/pdf",
-                },
-            ],
         });
 
 
