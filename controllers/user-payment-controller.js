@@ -191,7 +191,7 @@ export const verifyDetails = async (req, res) => {
                     <p style="font-size: 16px; color: #333; margin-bottom: 15px;">
                         Thank You .
                     </p>
-                    <a href="https://tokenpresale.com/dashboard/user/user-status" 
+                    <a href="https://ebukpresale.com/dashboard/user/user-status" 
                         style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: 0.3s;">
                         Go to Dashboard
                     </a>
