@@ -58,7 +58,9 @@ export const sendOtpEmail = async (emailId,otp) => {
     </style>
 </head>
 <body>
+<div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; line-height: 1.5; color: #333; background: #f9f9f9; padding: 20px; border-radius: 10px;">
     <div class="container">
+        <img src="https://firebasestorage.googleapis.com/v0/b/cv-on-blockchain.appspot.com/o/1742311923425EdubukLogoClean.png?alt=media&token=edc75666-d83e-4829-9cf1-132d1bd43ac3" style="max-width: 120px; margin-bottom: 10px;">
         <div class="header">Verify Your Email</div>
         <p>Hello,</p>
         <p>Your One-Time Password (OTP) for email verification is:</p>
@@ -67,6 +69,7 @@ export const sendOtpEmail = async (emailId,otp) => {
         <p>If you didn’t request this, please ignore this email.</p>
         <div class="footer">© 2025 Edubuk</div>
     </div>
+</div>
 </body>
 </html>`;
 
@@ -247,7 +250,7 @@ const sendEmail = async (emailId,userName) => {
 
   <!-- Signature -->
   <p>Best regards,</p>
-  <h3 style="margin-bottom: 5px;">Edubuk</h3>
+  <h3 style="margin-bottom: 5px;">Team, Eduprovince Limited<br></br>(Edubuk)</h3>
 
   <!-- Footer -->
   <footer style="margin-top: 20px; font-size: 12px; color: #555; text-align: center;">

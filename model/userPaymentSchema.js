@@ -24,9 +24,12 @@ const paymentSchema = new mongoose.Schema({
         type:Boolean,
         default:false
       },
-      tokensReceived:{
-        type:String
-      },
+      tokensReceived:[
+        {
+          token:String,
+          time:String
+        }
+      ],
       walletAdd: {
       type: String,
       required: true,
