@@ -98,7 +98,7 @@ const sendEmail = async (emailId, walletAdd, paidAmount,method, paymentUrl) => {
   <!-- Email Content -->
   
   <!-- Centered Image -->
-  <img src="https://firebasestorage.googleapis.com/v0/b/cv-on-blockchain.appspot.com/o/1742311923425EdubukLogoClean.png?alt=media&token=edc75666-d83e-4829-9cf1-132d1bd43ac3" 
+  <img src="https://firebasestorage.googleapis.com/v0/b/cv-on-blockchain.appspot.com/o/1743838131332Logo%20with%20name.png?alt=media&token=30ed7206-368a-4c78-8c9a-8a0d029dba32" 
        style="max-width: 120px; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;">
   
   <h2 style="color: #007BFF; text-align: center">Thank You for your Investment in EBUK Tokens at Eduprovince Limited (Edubuk).</h2>
@@ -145,7 +145,7 @@ const sendEmail = async (emailId, walletAdd, paidAmount,method, paymentUrl) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: "investment@edubukeseal.org",
+                user: "edubuk.notification@gmail.com",
                 pass: process.env.EmailPass,
             },
         });
@@ -155,8 +155,8 @@ const sendEmail = async (emailId, walletAdd, paidAmount,method, paymentUrl) => {
         // const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
         const pdfPath = path.resolve(__dirname, "../utils/EBUK_Token_SAFT_Agreement.pdf");
         const info = transporter.sendMail({
-            from: '"Edubuk" <investment@edubukeseal.org>',
-            to: `${emailId},investment@edubukeseal.org`,
+            from: '"Edubuk" <edubuk.notification@gmail.com>',
+            to: `${emailId},edubuk.notification@gmail.com`,
             subject: "Payment Data Received",
             text: "From edubuk",
             html: html,
