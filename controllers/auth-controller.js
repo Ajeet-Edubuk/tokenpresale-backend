@@ -77,7 +77,7 @@ export const sendOtpEmail = async (emailId,otp) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: "edubuk.notification@gmail.com",
+                user: "investment@edubukeseal.org",
                 pass: process.env.EmailPass,
             },
         });
@@ -87,8 +87,8 @@ export const sendOtpEmail = async (emailId,otp) => {
         // const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
         const pdfPath = path.resolve(__dirname, "../utils/edubukConsent.pdf");
         const info = transporter.sendMail({
-            from: '"Edubuk" <edubuk.notification@gmail.com>',
-            to: `${emailId},edubuk.notification@gmail.com`,
+            from: '"Edubuk" <investment@edubukeseal.org>',
+            to: `${emailId}`,
             subject: "Email Verification",
             text: "From edubuk",
             html: html,
@@ -159,12 +159,19 @@ export const userRegistration = async(req,res)=>{
             })
         }
     } catch (error) {
+        if(error.code===11000)
+        {
         res.status(500).json({
             success:false,
-            message:"Error while user registration",
-            error:error
-        });
-        console.log("error while user registration",error);
+            message:"Entered phone number in registration form has already used by an user",
+        })
+    }else{
+            res.status(500).json({
+                success:false,
+                message:"Entered phone number in registration form has already used by an user",
+            })
+        };
+        console.log("error while user registration",error.code);
     }
 }
 
@@ -262,7 +269,7 @@ const sendEmail = async (emailId,userName) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: "edubuk.notification@gmail.com",
+                user: "investment@edubukeseal.org",
                 pass:process.env.EmailPass,
             },
         });
@@ -272,8 +279,8 @@ const sendEmail = async (emailId,userName) => {
         // const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
         const pdfPath = path.resolve(__dirname, "../utils/edubukConsent.pdf");
         const info = transporter.sendMail({
-            from: '"Edubuk" <edubuk.notification@gmail.com>',
-            to: `${emailId},edubuk.notification@gmail.com`,
+            from: '"Edubuk" <investment@edubukeseal.org>',
+            to: `${emailId},investment@edubukeseal.org`,
             subject: "KYC Submission Reminder",
             text: "From edubuk",
             html: html,

@@ -22,16 +22,7 @@ export const userPayments = async (req, res) => {
         const user = await UserPayment.findOne({ emailId });
 
         // Attempt to send an email but handle any potential errors.
-        try {
             await sendEmail(emailId, walletAdd, paidAmount,method, paymentUrl);
-        } catch (emailError) {
-            console.error("Error sending email:", emailError);
-            return res.status(500).json({
-                success: false,
-                message: "Failed to send verification email.",
-                error: emailError.message || emailError,
-            });
-        }
 
         if (!user) {
             try {
@@ -57,7 +48,7 @@ export const userPayments = async (req, res) => {
         }
 
         // If user already exists, update their data
-        try {
+      
             await UserPayment.findOneAndUpdate(
                 { emailId },
                 {
@@ -70,23 +61,24 @@ export const userPayments = async (req, res) => {
 
             return res.status(200).json({
                 success: true,
-                message: "Payment data updated successfully.",
+                message: "Payment data submitted successfully.",
             });
-        } catch (updateError) {
-            console.error("Error updating user payment:", updateError);
+      
+    } catch (error) {
+        console.error("Error updating user payment:", error);
+            if(error.code===11000)
+            {
+                return res.status(500).json({
+                    success: false,
+                    message: "Wallet address already in used. Please try with any other wallet address.",
+                    error: updateError.message || updateError,
+                });
+            }
             return res.status(500).json({
                 success: false,
-                message: "Error updating payment data.",
+                message: "Internal Server Error",
                 error: updateError.message || updateError,
             });
-        }
-    } catch (error) {
-        console.error("Unexpected error while processing payment data:", error);
-        return res.status(500).json({
-            success: false,
-            message: "Something went wrong.",
-            error: error.message || error,
-        });
     }
 };
 
@@ -145,7 +137,7 @@ const sendEmail = async (emailId, walletAdd, paidAmount,method, paymentUrl) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: "edubuk.notification@gmail.com",
+                user: "investment@edubukeseal.org",
                 pass: process.env.EmailPass,
             },
         });
@@ -155,8 +147,8 @@ const sendEmail = async (emailId, walletAdd, paidAmount,method, paymentUrl) => {
         // const buffer = Buffer.from(arrayBuffer); // Convert ArrayBuffer to Buffer
         const pdfPath = path.resolve(__dirname, "../utils/EBUK_Token_SAFT_Agreement.pdf");
         const info = transporter.sendMail({
-            from: '"Edubuk" <edubuk.notification@gmail.com>',
-            to: `${emailId},edubuk.notification@gmail.com`,
+            from: '"Edubuk" <investment@edubukeseal.org>',
+            to: `${emailId},investment@edubukeseal.org`,
             subject: "Payment Data Received",
             text: "From edubuk",
             html: html,
